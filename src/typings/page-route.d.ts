@@ -39,7 +39,7 @@ declare namespace PageRoute {
     | 'system_class-mng'
     | 'system_dept'
     | 'system_form-designer'
-    | 'system_menu'
+    | 'system_meun'
     | 'system_role'
     | 'system_user';
 
@@ -66,7 +66,7 @@ declare namespace PageRoute {
     | 'system_class-mng'
     | 'system_dept'
     | 'system_form-designer'
-    | 'system_menu'
+    | 'system_meun'
     | 'system_role'
     | 'system_user'
   >;

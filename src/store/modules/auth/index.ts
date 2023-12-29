@@ -36,14 +36,12 @@ export const useAuthStore = defineStore('auth-store', {
       const { toLogin } = useRouterPush(false);
       const { resetTabStore } = useTabStore();
       const { resetRouteStore } = useRouteStore();
-      const route = unref(router.currentRoute);
+      // const route = unref(router.currentRoute);
 
       clearAuthStorage();
       this.$reset();
 
-      if (route.meta.requiresAuth) {
-        toLogin();
-      }
+      toLogin();
 
       nextTick(() => {
         resetTabStore();
@@ -56,31 +54,34 @@ export const useAuthStore = defineStore('auth-store', {
     async handleActionAfterLogin(result: LoginSuccess.Data) {
       const route = useRouteStore();
       const { toLoginRedirect } = useRouterPush(false);
-      localStg.set('token', result.token);
-      localStg.set('refreshToken', result.token);
-      localStg.set('userInfo', result.userInfo);
-      result.menuList.map((item: any) => {
-        item.component = 'basic';
-        item.children.map((ele: any) => {
-          ele.component = 'self';
-          delete ele.children;
+      if (result) {
+        localStg.set('token', result.token);
+        localStg.set('refreshToken', result.token);
+        localStg.set('userInfo', result.userInfo);
+        result.menuList.map((item: any) => {
+          item.component = 'basic';
+          item.children.map((ele: any) => {
+            ele.component = 'self';
+            ele.name = ele.path.slice(1).replace(/\//, '_');
+            delete ele.children;
+          });
         });
-      });
-      localStg.set('menuList', result.menuList);
-      await route.initAuthRoute();
+        localStg.set('menuList', result.menuList);
+        await route.initAuthRoute();
 
-      // 跳转登录后的地址
-      toLoginRedirect();
+        // 跳转登录后的地址
+        toLoginRedirect();
 
-      // 登录成功弹出欢迎提示
-      if (route.isInitAuthRoute) {
-        window.$notification?.success({
-          title: $t('page.login.common.loginSuccess'),
-          content: $t('page.login.common.welcomeBack', { userName: this.userInfo.userName }),
-          duration: 3000
-        });
+        // 登录成功弹出欢迎提示
+        if (route.isInitAuthRoute) {
+          window.$notification?.success({
+            title: $t('page.login.common.loginSuccess'),
+            content: $t('page.login.common.welcomeBack', { userName: this.userInfo.userName }),
+            duration: 3000
+          });
+        }
+        return;
       }
-
       // 不成功则重置状态
       this.resetAuthStore();
     },

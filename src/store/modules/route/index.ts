@@ -109,12 +109,12 @@ export const useRouteStore = defineStore('route-store', {
     async initDynamicRoute() {
       const { initHomeTab } = useTabStore();
       const menuList = localStg.get('menuList') || [];
-			this.handleAuthRoute(sortRoutes(menuList));
+      this.handleAuthRoute(sortRoutes(menuList));
       // home相关处理需要在最后，否则会出现找不到主页404的情况
-      this.routeHomeName = 'root';
-      this.handleUpdateRootRedirect('root');
+      this.routeHomeName = 'system_user';
+      this.handleUpdateRootRedirect('system_user');
 
-      initHomeTab('root', router);
+      initHomeTab('system_user', router);
 
       this.isInitAuthRoute = true;
     },

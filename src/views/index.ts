@@ -21,7 +21,7 @@ export const views: Record<
   'system_class-mng': () => import('./system/class-mng/index.vue'),
   system_dept: () => import('./system/dept/index.vue'),
   'system_form-designer': () => import('./system/form-designer/index.vue'),
-  system_menu: () => import('./system/menu/index.vue'),
+  system_meun: () => import('./system/meun/index.vue'),
   system_role: () => import('./system/role/index.vue'),
   system_user: () => import('./system/user/index.vue')
 };
