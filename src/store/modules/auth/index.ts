@@ -1,6 +1,5 @@
-import { unref, nextTick } from 'vue';
+import { nextTick } from 'vue';
 import { defineStore } from 'pinia';
-import { router } from '@/router';
 import { fetchLogin, fetchUserInfo } from '@/service';
 import { useRouterPush } from '@/composables';
 import { localStg } from '@/utils';
@@ -58,9 +57,9 @@ export const useAuthStore = defineStore('auth-store', {
         localStg.set('token', result.token);
         localStg.set('refreshToken', result.token);
         localStg.set('userInfo', result.userInfo);
-        result.menuList.map((item: any) => {
+        result.menuList.forEach((item: any) => {
           item.component = 'basic';
-          item.children.map((ele: any) => {
+          item.children.forEach((ele: any) => {
             ele.component = 'self';
             ele.name = ele.path.slice(1).replace(/\//, '_');
             delete ele.children;
