@@ -1,3 +1,4 @@
+import { loginApi } from '@/service/api/admin';
 import { request } from '../request';
 
 /**
@@ -15,7 +16,7 @@ export function fetchSmsCode(phone: string) {
  * @param password - 密码
  */
 export function fetchLogin(userName: string, password: string) {
-  return request.post<ApiAuth.Token>('/admin/admin/login', { username: userName, password });
+  return request.post<ApiAuth.Token>(loginApi, { username: userName, password });
 }
 
 /** 获取用户信息 */
