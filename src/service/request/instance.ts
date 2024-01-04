@@ -10,7 +10,6 @@ import {
   transformRequestData
 } from '@/utils';
 import { handleRefreshToken } from './helpers';
-
 type RefreshRequestQueue = (config: AxiosRequestConfig) => void;
 
 /**
@@ -25,6 +24,8 @@ export default class CustomAxiosInstance {
   isRefreshing: boolean;
 
   retryQueues: RefreshRequestQueue[];
+
+  spinRequestCount = 0;
 
   /**
    *
@@ -47,10 +48,47 @@ export default class CustomAxiosInstance {
     this.retryQueues = [];
   }
 
+  showSpin() {
+    if (this.spinRequestCount === 0) {
+      const loadingEle = document.createElement('div');
+      loadingEle.id = 'loadingEle';
+      loadingEle.style.position = 'fixed';
+      loadingEle.style.top = '0';
+      loadingEle.style.left = '0';
+      loadingEle.style.bottom = '0';
+      loadingEle.style.right = '0';
+      loadingEle.style.zIndex = '9999';
+      loadingEle.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      loadingEle.style.display = 'flex';
+      loadingEle.style.justifyContent = 'center';
+      loadingEle.style.alignItems = 'center';
+      const loadingImg = document.createElement('img');
+      loadingImg.src = 'src/assets/img/loading.gif';
+      loadingImg.style.width = '48px';
+      loadingImg.style.height = '48px';
+      loadingEle.appendChild(loadingImg);
+      if (document.getElementById('loadingEle')) {
+        document.getElementById('loadingEle')?.remove();
+      } else {
+        document.getElementById('app')?.appendChild(loadingEle as any);
+      }
+    }
+    this.spinRequestCount += 1;
+  }
+
+  hideSpin() {
+    if (this.spinRequestCount <= 0) return;
+    this.spinRequestCount -= 1;
+    if (this.spinRequestCount === 0) {
+      document.getElementById('loadingEle')?.remove();
+    }
+  }
+
   /** 设置请求拦截器 */
   setInterceptor() {
     this.instance.interceptors.request.use(
       async config => {
+        this.showSpin();
         const handleConfig = { ...config };
         if (handleConfig.headers) {
           // 数据转换
@@ -69,6 +107,7 @@ export default class CustomAxiosInstance {
     );
     this.instance.interceptors.response.use(
       (async response => {
+        this.hideSpin();
         const { status, config } = response;
         if (status === 200 || status < 300 || status === 304) {
           const backend = response.data;
