@@ -29,7 +29,7 @@ const changePageSize = (pageSize: number) => {
 </script>
 
 <template>
-  <div class="pagination-container flex justify-start items-center p4 bg-white">
+  <div class="pagination-container flex justify-start items-center p4">
     共 {{ pageInfo.totalRecords }} 条
     <n-pagination
       class="ml4 mr2"
