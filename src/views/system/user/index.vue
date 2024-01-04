@@ -84,9 +84,15 @@ const columns = [
     render: row => {
       return (
         <NSpace>
-          <NButton onClick={() => clickEditPass(row)}>修改密码</NButton>
-          <NButton onClick={() => clickEdit(row)}>编辑</NButton>
-          <NButton onClick={() => clickDelete(row)}>删除</NButton>
+          <NButton type="info" text onClick={() => clickEditPass(row)}>
+            修改密码
+          </NButton>
+          <NButton type="info" text onClick={() => clickEdit(row)}>
+            编辑
+          </NButton>
+          <NButton type="error" text onClick={() => clickDelete(row)}>
+            删除
+          </NButton>
         </NSpace>
       );
     }
@@ -99,8 +105,15 @@ onMounted(() => {
 
 <template>
   <div class="user-container">
-    <n-data-table :data="state.dataList" :single-line="false" :columns="columns" />
-    <Pagination :page-info="state.pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
+    <div class="content bg-white p4">
+      <n-space class="mb4">
+        <n-input v-model="state.pageInfo.username" placeholder="请输入用户名称" />
+        <n-button type="default">查询</n-button>
+        <n-button type="primary">新增</n-button>
+      </n-space>
+      <n-data-table :data="state.dataList" :single-line="false" :columns="columns" />
+      <Pagination :page-info="state.pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
+    </div>
   </div>
 </template>
 
