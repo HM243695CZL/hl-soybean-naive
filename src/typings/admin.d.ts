@@ -1,9 +1,5 @@
 declare namespace Admin {
-  interface Page {
-    /** 第几页 */
-    pageIndex: number;
-    /** 每页显示多少条 */
-    pageSize: number;
+  interface Page extends Common.PageInfo {
     /** 用户名 */
     username: string;
   }
@@ -20,13 +16,7 @@ declare namespace Admin {
     /** 创建时间 */
     addTime: string;
   }
-
-  interface DataList {
-    list: Array<Item>;
-    total: number;
-  }
 }
 
 export type AdminPage = Admin.Page;
 export type AdminItem = Admin.Item;
-export type AdminDataList = Admin.DataList;

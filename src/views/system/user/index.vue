@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { onMounted, reactive, h } from 'vue';
-import type { AdminItem } from '@/typings/admin';
+import type { AdminItem, AdminPage } from '@/typings/admin';
 import { getAdminPage } from '@/service/api/admin';
 import Pagination from '@/components/common/pagination.vue';
 
@@ -11,14 +11,38 @@ const state = reactive({
     pageIndex: 1,
     pageSize: 10,
     totalRecords: 0
-  }
+  } as AdminPage
 });
+
+const getAdminPageList = () => {
+  getAdminPage(state.pageInfo).then(res => {
+    state.dataList = res.data?.list as AdminItem[];
+    state.pageInfo.totalRecords = res.data?.total as number;
+  });
+};
+const changePageIndex = (pageIndex: number) => {
+  state.pageInfo.pageIndex = pageIndex;
+  getAdminPageList();
+};
+const changePageSize = (pageSize: number) => {
+  state.pageInfo.pageIndex = 1;
+  state.pageInfo.pageSize = pageSize;
+  getAdminPageList();
+};
+const clickEditPass = row => {
+  console.log(row);
+};
+const clickEdit = row => {
+  console.log(row);
+};
+const clickDelete = row => {
+  console.log(row);
+};
 const columns = [
   {
     title: '序号',
     key: 'index',
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    render: (rowData: object, index: number) => {
+    render: (_, index: number) => {
       return h('span', {}, index + 1);
     }
   },
@@ -40,25 +64,34 @@ const columns = [
     }
   },
   {
+    title: '关联角色',
+    key: 'roles',
+    render: row => {
+      return row.roles.map((item: string) => (
+        <NTag type="success" bordered={false}>
+          {item}
+        </NTag>
+      ));
+    }
+  },
+  {
     title: '添加时间',
     key: 'addTime'
+  },
+  {
+    title: '操作',
+    key: 'action',
+    render: row => {
+      return (
+        <NSpace>
+          <NButton onClick={() => clickEditPass(row)}>修改密码</NButton>
+          <NButton onClick={() => clickEdit(row)}>编辑</NButton>
+          <NButton onClick={() => clickDelete(row)}>删除</NButton>
+        </NSpace>
+      );
+    }
   }
 ];
-const getAdminPageList = () => {
-  getAdminPage(state.pageInfo).then(res => {
-    state.dataList = res.data?.list as AdminItem[];
-    state.pageInfo.totalRecords = res.data?.total as number;
-  });
-};
-const changePageIndex = (pageIndex: number) => {
-  state.pageInfo.pageIndex = pageIndex;
-  getAdminPageList();
-};
-const changePageSize = (pageSize: number) => {
-  state.pageInfo.pageIndex = 1;
-  state.pageInfo.pageSize = pageSize;
-  getAdminPageList();
-};
 onMounted(() => {
   getAdminPageList();
 });
