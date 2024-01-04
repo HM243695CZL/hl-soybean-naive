@@ -64,8 +64,8 @@ export default class CustomAxiosInstance {
       loadingEle.style.alignItems = 'center';
       const loadingImg = document.createElement('img');
       loadingImg.src = 'src/assets/img/loading.gif';
-      loadingImg.style.width = '48px';
-      loadingImg.style.height = '48px';
+      loadingImg.style.width = '155px';
+      loadingImg.style.height = '155px';
       loadingEle.appendChild(loadingImg);
       if (document.getElementById('loadingEle')) {
         document.getElementById('loadingEle')?.remove();
