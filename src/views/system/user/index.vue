@@ -1,9 +1,11 @@
 <script setup lang="tsx">
-import { onMounted, reactive, h } from 'vue';
+import { onMounted, reactive, h, ref } from 'vue';
 import type { AdminItem, AdminPage } from '@/typings/admin';
 import { getAdminPage } from '@/service/api/admin';
 import Pagination from '@/components/common/pagination.vue';
+import UserModal from '@/views/system/component/user/userModal.vue';
 
+const userModalRef = ref();
 const state = reactive({
   dataList: [] as AdminItem[],
   pageInfo: {
@@ -37,6 +39,13 @@ const clickEdit = row => {
 };
 const clickDelete = row => {
   console.log(row);
+};
+const clickSearch = () => {
+  state.pageInfo.pageIndex = 1;
+  getAdminPageList();
+};
+const clickAdd = () => {
+  userModalRef.value.openDialog();
 };
 const columns = [
   {
@@ -105,15 +114,14 @@ onMounted(() => {
 
 <template>
   <div class="user-container">
-    <div class="content bg-white p4">
-      <n-space class="mb4">
-        <n-input v-model="state.pageInfo.username" placeholder="请输入用户名称" />
-        <n-button type="default">查询</n-button>
-        <n-button type="primary">新增</n-button>
-      </n-space>
-      <n-data-table :data="state.dataList" :single-line="false" :columns="columns" />
-      <Pagination :page-info="state.pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
-    </div>
+    <n-space class="mb4">
+      <n-input v-model:value="state.pageInfo.username" clearable placeholder="请输入用户名称" />
+      <n-button type="default" @click="clickSearch">查询</n-button>
+      <n-button type="primary" @click="clickAdd">新增</n-button>
+    </n-space>
+    <n-data-table :data="state.dataList" :single-line="false" :columns="columns" />
+    <Pagination :page-info="state.pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
+    <UserModal ref="userModalRef" />
   </div>
 </template>
 

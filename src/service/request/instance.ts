@@ -146,6 +146,7 @@ export default class CustomAxiosInstance {
         return handleServiceResult(error, null);
       }) as (response: AxiosResponse<any, any>) => Promise<AxiosResponse<any, any>>,
       (axiosError: AxiosError) => {
+        this.hideSpin();
         const error = handleAxiosError(axiosError);
         return handleServiceResult(error, null);
       }
