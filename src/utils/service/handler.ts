@@ -1,15 +1,21 @@
 /** 统一失败和成功的请求结果的数据类型 */
-export async function handleServiceResult<T = any>(error: Service.RequestError | null, data: any) {
+export async function handleServiceResult<T = any>(
+  error: Service.RequestError | null,
+  data: any,
+  originData?: any
+): Promise<Service.RequestResult<T>> {
   if (error) {
     const fail: Service.FailedResult = {
       error,
-      data: null
+      data: null,
+      originData
     };
     return fail;
   }
   const success: Service.SuccessResult<T> = {
     error: null,
-    data
+    data,
+    originData
   };
   return success;
 }

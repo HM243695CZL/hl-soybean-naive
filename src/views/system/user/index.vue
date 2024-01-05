@@ -1,9 +1,11 @@
 <script setup lang="tsx">
 import { onMounted, reactive, h, ref } from 'vue';
 import type { AdminItem, AdminPage } from '@/typings/admin';
-import { getAdminPage } from '@/service/api/admin';
+import { getAdminPageApi } from '@/service/api/admin';
 import Pagination from '@/components/common/pagination.vue';
 import UserModal from '@/views/system/component/user/userModal.vue';
+import type { RoleItem } from '@/typings/role';
+import { getRoleListApi } from '@/service/api/role';
 
 const userModalRef = ref();
 const state = reactive({
@@ -13,11 +15,12 @@ const state = reactive({
     pageIndex: 1,
     pageSize: 10,
     totalRecords: 0
-  } as AdminPage
+  } as AdminPage,
+  roleList: [] as RoleItem[]
 });
 
 const getAdminPageList = () => {
-  getAdminPage(state.pageInfo).then(res => {
+  getAdminPageApi(state.pageInfo).then(res => {
     state.dataList = res.data?.list as AdminItem[];
     state.pageInfo.totalRecords = res.data?.total as number;
   });
@@ -46,6 +49,11 @@ const clickSearch = () => {
 };
 const clickAdd = () => {
   userModalRef.value.openDialog();
+};
+const getRoleList = () => {
+  getRoleListApi().then(res => {
+    state.roleList = res.data as RoleItem[];
+  });
 };
 const columns = [
   {
@@ -109,6 +117,7 @@ const columns = [
 ];
 onMounted(() => {
   getAdminPageList();
+  getRoleList();
 });
 </script>
 
@@ -121,7 +130,7 @@ onMounted(() => {
     </n-space>
     <n-data-table :data="state.dataList" :single-line="false" :columns="columns" />
     <Pagination :page-info="state.pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
-    <UserModal ref="userModalRef" />
+    <UserModal ref="userModalRef" :role-list="state.roleList" @refresh-list="clickSearch" />
   </div>
 </template>
 

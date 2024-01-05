@@ -11,10 +11,12 @@ declare namespace Admin {
     username: string;
     /** 头像 */
     avatar: string;
-    /** 角色 */
-    roles: Array<string>;
+    /** 角色key */
+    roles?: Array<string>;
+    /** 角色id */
+    roleIds: Array<number>;
     /** 创建时间 */
-    addTime: string;
+    addTime?: string;
   }
 }
 

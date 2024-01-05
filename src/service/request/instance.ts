@@ -114,7 +114,7 @@ export default class CustomAxiosInstance {
           const { codeKey, dataKey, successCode } = this.backendConfig;
           // 请求成功
           if (backend[codeKey] === successCode) {
-            return handleServiceResult(null, backend[dataKey]);
+            return handleServiceResult(null, backend[dataKey], backend);
           }
 
           // token失效, 刷新token

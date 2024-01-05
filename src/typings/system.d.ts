@@ -18,6 +18,16 @@ declare namespace Service {
     msg: string;
   }
 
+  /** 后端接口返回的数据结构 */
+  interface OriginResp {
+    /** 状态码 */
+    status: number;
+    /** 消息 */
+    message: string;
+    /** 数据 */
+    data: any;
+  }
+
   /** 后端接口返回的数据结构配置 */
   interface BackendResultConfig {
     /** 表示后端请求状态码的属性字段 */
@@ -36,6 +46,8 @@ declare namespace Service {
     error: null;
     /** 请求数据 */
     data: T;
+    /** 原始数据 */
+    originData?: OriginResp;
   }
 
   /** 自定义的请求失败结果 */
@@ -44,6 +56,8 @@ declare namespace Service {
     error: RequestError;
     /** 请求数据 */
     data: null;
+    /** 原始数据 */
+    originData?: OriginResp;
   }
 
   /** 自定义的请求结果 */
