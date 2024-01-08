@@ -79,10 +79,14 @@ defineExpose({
       require-mark-placement="left"
     >
       <n-form-item label="新密码" path="password">
-        <n-input v-model:value="state.ruleForm.password" placeholder="请输入新密码"></n-input>
+        <n-input v-model:value="state.ruleForm.password" type="password" placeholder="请输入新密码"></n-input>
       </n-form-item>
       <n-form-item label="确认密码" path="confirmPassword">
-        <n-input v-model:value="state.ruleForm.confirmPassword" placeholder="请再次确认新密码"></n-input>
+        <n-input
+          v-model:value="state.ruleForm.confirmPassword"
+          type="password"
+          placeholder="请再次确认新密码"
+        ></n-input>
       </n-form-item>
     </n-form>
     <template #action>
