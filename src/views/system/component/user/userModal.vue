@@ -4,7 +4,7 @@ import type { UploadFileInfo } from 'naive-ui';
 import { useMessage } from 'naive-ui';
 import { getPolicy } from '@/service/api/oss';
 import type { RoleItem } from '@/typings/role';
-import { createAdminApi } from '@/service/api/admin';
+import { createAdminApi, updateAdminApi, viewAdminApi } from '@/service/api/admin';
 import type { AdminItem } from '@/typings/admin';
 
 interface Props {
@@ -24,6 +24,7 @@ const formRef = ref();
 const message = useMessage();
 const state = reactive({
   isShowDialog: false,
+  title: '',
   ruleForm: {
     username: '',
     avatar: '',
@@ -44,7 +45,8 @@ const state = reactive({
     ossAccessKeyId: '',
     dir: '',
     host: ''
-  } as Oss.Policy
+  } as Oss.Policy,
+  fileList: []
 });
 const resetForm = () => {
   // eslint-disable-next-line guard-for-in
@@ -52,11 +54,36 @@ const resetForm = () => {
     state.ruleForm[o] = '';
   }
 };
-const openDialog = () => {
+const setFormValue = (adminItem: AdminItem) => {
+  // eslint-disable-next-line guard-for-in
+  for (const o in state.ruleForm) {
+    state.ruleForm[o] = adminItem[o];
+  }
+  // 获取文件名称
+  const fileName = adminItem.avatar.split('/').pop();
+  state.fileList = [
+    {
+      id: adminItem.id,
+      name: fileName,
+      url: adminItem.avatar,
+      status: 'finished'
+    }
+  ];
+};
+const openDialog = (id: number) => {
   state.isShowDialog = true;
   nextTick(() => {
     resetForm();
     formRef.value.restoreValidation();
+    state.fileList = [];
+    if (id) {
+      state.title = '编辑用户';
+      viewAdminApi(id).then(res => {
+        setFormValue(res.data as AdminItem);
+      });
+    } else {
+      state.title = '新增用户';
+    }
   });
 };
 const handleBeforeUpload = () => {
@@ -85,11 +112,19 @@ const closeDialog = () => {
 const clickConfirm = () => {
   formRef.value.validate(errors => {
     if (!errors) {
-      createAdminApi(state.ruleForm).then(res => {
-        closeDialog();
-        message.success(res.originData?.message as string);
-        emit('refresh-list');
-      });
+      if (state.ruleForm.id) {
+        updateAdminApi(state.ruleForm).then(res => {
+          closeDialog();
+          message.success(res.originData?.message as string);
+          emit('refresh-list');
+        });
+      } else {
+        createAdminApi(state.ruleForm).then(res => {
+          closeDialog();
+          message.success(res.originData?.message as string);
+          emit('refresh-list');
+        });
+      }
     }
   });
 };
@@ -100,7 +135,7 @@ defineExpose({
 </script>
 
 <template>
-  <n-modal :show="state.isShowDialog" preset="dialog" title="新增用户" :show-icon="false" :on-close="closeDialog">
+  <n-modal :show="state.isShowDialog" preset="dialog" :title="state.title" :show-icon="false" :on-close="closeDialog">
     <n-form
       ref="formRef"
       :model="state.ruleForm"
@@ -125,6 +160,7 @@ defineExpose({
       </n-form-item>
       <n-form-item label="头像" path="avatar">
         <n-upload
+          v-model:file-list="state.fileList"
           :action="state.policyMap.host"
           :data="state.policyMap"
           :on-before-upload="handleBeforeUpload"

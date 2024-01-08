@@ -37,8 +37,8 @@ const changePageSize = (pageSize: number) => {
 const clickEditPass = row => {
   console.log(row);
 };
-const clickEdit = row => {
-  console.log(row);
+const clickEdit = (row: AdminItem) => {
+  userModalRef.value.openDialog(row.id);
 };
 const clickDelete = row => {
   console.log(row);
