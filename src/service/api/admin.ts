@@ -7,6 +7,7 @@ const getAdminPagePath = `${baseAdminPath}page`; // 获取用户分页列表
 const createAdminPath = `${baseAdminPath}create`; // 创建用户
 const viewAdminPath = `${baseAdminPath}view`; // 查看用户
 const updateAdminPath = `${baseAdminPath}update`; // 更新用户
+const deleteAdminPath = `${baseAdminPath}delete`; // 删除用户
 
 export function getAdminPageApi(pageParams: Admin.Page) {
   return request.post<Common.DataPageList<AdminItem>>(getAdminPagePath, pageParams);
@@ -21,5 +22,9 @@ export function viewAdminApi(id: number) {
 }
 
 export function updateAdminApi(params: Admin.Item) {
-	return request.post<Admin.Item>(updateAdminPath, params);
+  return request.post<Admin.Item>(updateAdminPath, params);
+}
+
+export function deleteAdminApi(id: number) {
+  return request.get<Admin.Item>(`${deleteAdminPath}/${id}`);
 }

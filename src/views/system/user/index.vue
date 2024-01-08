@@ -1,13 +1,15 @@
 <script setup lang="tsx">
 import { onMounted, reactive, h, ref } from 'vue';
+import { useMessage } from 'naive-ui';
 import type { AdminItem, AdminPage } from '@/typings/admin';
-import { getAdminPageApi } from '@/service/api/admin';
+import { deleteAdminApi, getAdminPageApi } from '@/service/api/admin';
 import Pagination from '@/components/common/pagination.vue';
 import UserModal from '@/views/system/component/user/userModal.vue';
 import type { RoleItem } from '@/typings/role';
 import { getRoleListApi } from '@/service/api/role';
 
 const userModalRef = ref();
+const message = useMessage();
 const state = reactive({
   dataList: [] as AdminItem[],
   pageInfo: {
@@ -40,12 +42,15 @@ const clickEditPass = row => {
 const clickEdit = (row: AdminItem) => {
   userModalRef.value.openDialog(row.id);
 };
-const clickDelete = row => {
-  console.log(row);
-};
 const clickSearch = () => {
   state.pageInfo.pageIndex = 1;
   getAdminPageList();
+};
+const clickDelete = (id: number) => {
+  deleteAdminApi(id).then(res => {
+    message.success(res.originData?.message as string);
+    clickSearch();
+  });
 };
 const clickAdd = () => {
   userModalRef.value.openDialog();
@@ -98,7 +103,7 @@ const columns = [
   {
     title: '操作',
     key: 'action',
-    render: row => {
+    render: (row: AdminItem) => {
       return (
         <NSpace>
           <NButton type="info" text onClick={() => clickEditPass(row)}>
@@ -107,9 +112,18 @@ const columns = [
           <NButton type="info" text onClick={() => clickEdit(row)}>
             编辑
           </NButton>
-          <NButton type="error" text onClick={() => clickDelete(row)}>
-            删除
-          </NButton>
+          <NPopconfirm
+            onPositiveClick={() => clickDelete(row.id)}
+            v-slots={{
+              trigger: () => (
+                <NButton type="error" text>
+                  删除
+                </NButton>
+              )
+            }}
+          >
+            确定删除当前数据吗？
+          </NPopconfirm>
         </NSpace>
       );
     }
