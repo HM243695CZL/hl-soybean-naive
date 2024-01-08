@@ -18,7 +18,15 @@ declare namespace Admin {
     /** 创建时间 */
     addTime?: string;
   }
+
+  interface UpdatePass {
+    /** 用户id */
+    id: number;
+    /** 密码 */
+    password: string;
+  }
 }
 
 export type AdminPage = Admin.Page;
 export type AdminItem = Admin.Item;
+export type AdminUpdatePass = Admin.UpdatePass;

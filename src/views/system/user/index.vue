@@ -5,10 +5,12 @@ import type { AdminItem, AdminPage } from '@/typings/admin';
 import { deleteAdminApi, getAdminPageApi } from '@/service/api/admin';
 import Pagination from '@/components/common/pagination.vue';
 import UserModal from '@/views/system/component/user/userModal.vue';
+import PasswordConfirm from '@/views/system/component/user/passwordConfirm.vue';
 import type { RoleItem } from '@/typings/role';
 import { getRoleListApi } from '@/service/api/role';
 
 const userModalRef = ref();
+const passwordConfirmRef = ref();
 const message = useMessage();
 const state = reactive({
   dataList: [] as AdminItem[],
@@ -36,8 +38,8 @@ const changePageSize = (pageSize: number) => {
   state.pageInfo.pageSize = pageSize;
   getAdminPageList();
 };
-const clickEditPass = row => {
-  console.log(row);
+const clickEditPass = (row: AdminItem) => {
+  passwordConfirmRef.value.openDialog(row.id);
 };
 const clickEdit = (row: AdminItem) => {
   userModalRef.value.openDialog(row.id);
@@ -145,6 +147,7 @@ onMounted(() => {
     <n-data-table :data="state.dataList" :single-line="false" :columns="columns" />
     <Pagination :page-info="state.pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
     <UserModal ref="userModalRef" :role-list="state.roleList" @refresh-list="clickSearch" />
+    <PasswordConfirm ref="passwordConfirmRef" />
   </div>
 </template>
 
