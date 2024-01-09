@@ -130,54 +130,48 @@ const clickConfirm = () => {
 };
 defineExpose({
   formRef,
-  openDialog
+  state
 });
 </script>
 
 <template>
-  <n-modal :show="state.isShowDialog" preset="dialog" :title="state.title" :show-icon="false" :on-close="closeDialog">
-    <n-form
-      ref="formRef"
-      :model="state.ruleForm"
-      :rules="state.rules"
-      label-placement="left"
-      label-width="100px"
-      require-mark-placement="left"
-    >
-      <n-form-item label="用户名称" path="username">
-        <n-input v-model:value="state.ruleForm.username" placeholder="请输入用户名称"></n-input>
-      </n-form-item>
-      <n-form-item label="关联角色" path="roleIds">
-        <n-select
-          v-model:value="state.ruleForm.roleIds"
-          placeholder="请选择关联角色"
-          multiple
-          max-tag-count="responsive"
-          :options="roleList"
-          label-field="name"
-          value-field="id"
-        />
-      </n-form-item>
-      <n-form-item label="头像" path="avatar">
-        <n-upload
-          v-model:file-list="state.fileList"
-          :action="state.policyMap.host"
-          :data="state.policyMap"
-          :on-before-upload="handleBeforeUpload"
-          :on-finish="handleFinish"
-          :on-remove="handleRemove"
-          list-type="image"
-          :max="1"
-        >
-          <n-button>点击上传</n-button>
-        </n-upload>
-      </n-form-item>
-    </n-form>
-    <template #action>
-      <n-button @click="closeDialog">取消</n-button>
-      <n-button type="primary" @click="clickConfirm">确定</n-button>
-    </template>
-  </n-modal>
+  <n-form
+    ref="formRef"
+    :model="state.ruleForm"
+    :rules="state.rules"
+    label-placement="left"
+    label-width="100px"
+    require-mark-placement="left"
+  >
+    <n-form-item label="用户名称" path="username">
+      <n-input v-model:value="state.ruleForm.username" placeholder="请输入用户名称"></n-input>
+    </n-form-item>
+    <n-form-item label="关联角色" path="roleIds">
+      <n-select
+        v-model:value="state.ruleForm.roleIds"
+        placeholder="请选择关联角色"
+        multiple
+        max-tag-count="responsive"
+        :options="roleList"
+        label-field="name"
+        value-field="id"
+      />
+    </n-form-item>
+    <n-form-item label="头像" path="avatar">
+      <n-upload
+        v-model:file-list="state.fileList"
+        :action="state.policyMap.host"
+        :data="state.policyMap"
+        :on-before-upload="handleBeforeUpload"
+        :on-finish="handleFinish"
+        :on-remove="handleRemove"
+        list-type="image"
+        :max="1"
+      >
+        <n-button>点击上传</n-button>
+      </n-upload>
+    </n-form-item>
+  </n-form>
 </template>
 
 <style scoped></style>

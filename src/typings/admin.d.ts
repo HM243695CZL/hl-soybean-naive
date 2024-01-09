@@ -1,5 +1,5 @@
 declare namespace Admin {
-  interface Page extends Common.PageInfo {
+  interface Page {
     /** 用户名 */
     username: string;
   }
