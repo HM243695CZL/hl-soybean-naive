@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import type { UploadFileInfo } from 'naive-ui';
-import { useMessage } from 'naive-ui';
 import { getPolicy } from '@/service/api/oss';
 import type { RoleItem } from '@/typings/role';
-import { createAdminApi, updateAdminApi, viewAdminApi } from '@/service/api/admin';
 import type { AdminItem } from '@/typings/admin';
 
 interface Props {
@@ -14,14 +12,7 @@ interface Props {
 
 defineProps<Props>();
 
-interface Emits {
-  (e: 'refresh-list'): void;
-}
-
-const emit = defineEmits<Emits>();
-
 const formRef = ref();
-const message = useMessage();
 const state = reactive({
   isShowDialog: false,
   title: '',
@@ -48,44 +39,6 @@ const state = reactive({
   } as Oss.Policy,
   fileList: []
 });
-const resetForm = () => {
-  // eslint-disable-next-line guard-for-in
-  for (const o in state.ruleForm) {
-    state.ruleForm[o] = '';
-  }
-};
-const setFormValue = (adminItem: AdminItem) => {
-  // eslint-disable-next-line guard-for-in
-  for (const o in state.ruleForm) {
-    state.ruleForm[o] = adminItem[o];
-  }
-  // 获取文件名称
-  const fileName = adminItem.avatar.split('/').pop();
-  state.fileList = [
-    {
-      id: adminItem.id,
-      name: fileName,
-      url: adminItem.avatar,
-      status: 'finished'
-    }
-  ];
-};
-const openDialog = (id: number) => {
-  state.isShowDialog = true;
-  nextTick(() => {
-    resetForm();
-    formRef.value.restoreValidation();
-    state.fileList = [];
-    if (id) {
-      state.title = '编辑用户';
-      viewAdminApi(id).then(res => {
-        setFormValue(res.data as AdminItem);
-      });
-    } else {
-      state.title = '新增用户';
-    }
-  });
-};
 const handleBeforeUpload = () => {
   return new Promise(resolve => {
     getPolicy().then(res => {
@@ -105,28 +58,6 @@ const handleFinish = (options: { file: UploadFileInfo; event?: ProgressEvent }) 
 };
 const handleRemove = () => {
   state.ruleForm.avatar = '';
-};
-const closeDialog = () => {
-  state.isShowDialog = false;
-};
-const clickConfirm = () => {
-  formRef.value.validate(errors => {
-    if (!errors) {
-      if (state.ruleForm.id) {
-        updateAdminApi(state.ruleForm).then(res => {
-          closeDialog();
-          message.success(res.originData?.message as string);
-          emit('refresh-list');
-        });
-      } else {
-        createAdminApi(state.ruleForm).then(res => {
-          closeDialog();
-          message.success(res.originData?.message as string);
-          emit('refresh-list');
-        });
-      }
-    }
-  });
 };
 defineExpose({
   formRef,
