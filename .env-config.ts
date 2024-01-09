@@ -4,7 +4,7 @@ type ServiceEnv = Record<ServiceEnvType, ServiceEnvConfig>;
 /** 不同请求服务的环境配置 */
 const serviceEnv: ServiceEnv = {
   dev: {
-    url: 'http://hlczyn.free.idcfengye.com'
+    url: 'http://localhost:9091'
   },
   test: {
     url: 'http://localhost:8080'

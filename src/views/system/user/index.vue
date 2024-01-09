@@ -22,10 +22,10 @@ const state = reactive({
 
 const {
   modalFormRef,
+  childRef,
   pageInfo,
   dataList,
   searchParams,
-  childRef,
   getDataList,
   clickAdd,
   clickEdit,
@@ -145,7 +145,7 @@ onMounted(() => {
       :other-init-method="initAvatar"
       @refresh-list="getDataList"
     >
-      <UserModal ref="childRef" :role-list="state.roleList" @refresh-list="clickSearch" />
+      <UserModal ref="childRef" :role-list="state.roleList" />
     </CommonModal>
   </div>
 </template>

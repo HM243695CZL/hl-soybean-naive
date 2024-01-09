@@ -14,8 +14,6 @@ defineProps<Props>();
 
 const formRef = ref();
 const state = reactive({
-  isShowDialog: false,
-  title: '',
   ruleForm: {
     username: '',
     avatar: '',
