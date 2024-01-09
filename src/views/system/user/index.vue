@@ -8,6 +8,7 @@ import UserModal from '@/views/system/component/user/userModal.vue';
 import PasswordConfirm from '@/views/system/component/user/passwordConfirm.vue';
 import CommonModal from '@/components/common/common-modal.vue';
 import CommonOperate from '@/components/common/common-operate.vue';
+import CommonTop from '@/components/common/common-top.vue';
 import type { RoleItem } from '@/typings/role';
 import { getRoleListApi } from '@/service/api/role';
 
@@ -127,11 +128,11 @@ onMounted(() => {
 
 <template>
   <div class="user-container">
-    <n-space class="mb4">
-      <n-input v-model:value="searchParams.username" clearable placeholder="请输入用户名称" />
-      <n-button type="default" @click="clickSearch">查询</n-button>
-      <n-button type="primary" @click="clickAdd">新增</n-button>
-    </n-space>
+    <CommonTop @click-add="clickAdd" @click-search="clickSearch">
+      <template #right>
+        <n-input v-model:value="searchParams.username" clearable placeholder="请输入用户名称" />
+      </template>
+    </CommonTop>
     <n-data-table :data="dataList" :single-line="false" :columns="columns" />
     <Pagination :page-info="pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
     <PasswordConfirm ref="passwordConfirmRef" />
