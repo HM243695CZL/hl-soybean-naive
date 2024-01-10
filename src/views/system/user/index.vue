@@ -90,7 +90,7 @@ const columns = [
     title: '关联角色',
     key: 'roles',
     render: row => {
-      return row.roles.map((item: string) => (
+      return (row.roles || []).map((item: string) => (
         <NTag type="success" bordered={false}>
           {item}
         </NTag>
