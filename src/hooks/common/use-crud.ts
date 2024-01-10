@@ -2,7 +2,7 @@ import { onMounted, reactive, ref, toRefs } from 'vue';
 import { useMessage } from 'naive-ui';
 
 interface ICrud {
-  pageFunc: any; // 分页查询的方法
+  pageFunc?: any; // 分页查询的方法
   deleteFunc?: any; // 删除的方法
   isMountedLoad?: boolean; // 是否加载完成请求数据
 }

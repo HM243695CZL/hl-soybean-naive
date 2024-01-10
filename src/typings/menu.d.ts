@@ -14,6 +14,8 @@ declare namespace Menu {
     component: string;
     /** 菜单图标 */
     icon: string;
+    /** 权限标识 */
+    roles: Array<string>;
     /** 菜单排序 */
     sort: number;
     /** 是否隐藏 */

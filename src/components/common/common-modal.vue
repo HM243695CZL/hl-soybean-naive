@@ -3,6 +3,7 @@ import { useCommonModal } from '@/hooks';
 
 interface Props {
   title: string;
+  style?: object;
   createFunc?: () => void;
   updateFunc?: () => void;
   viewFunc?: () => void;
@@ -33,7 +34,14 @@ defineExpose({
 </script>
 
 <template>
-  <n-modal :title="title" :show="isShowDialog" preset="dialog" :show-icon="false" :on-close="closeDialog">
+  <n-modal
+    :title="title"
+    :style="{ ...style }"
+    :show="isShowDialog"
+    preset="dialog"
+    :show-icon="false"
+    :on-close="closeDialog"
+  >
     <slot></slot>
     <template #action>
       <n-button @click="closeDialog">取消</n-button>

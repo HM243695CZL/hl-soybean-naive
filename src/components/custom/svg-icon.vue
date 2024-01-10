@@ -1,12 +1,14 @@
 <template>
-  <template v-if="renderLocalIcon">
-    <svg aria-hidden="true" width="1em" height="1em" v-bind="bindAttrs">
-      <use :xlink:href="symbolId" fill="currentColor" />
-    </svg>
-  </template>
-  <template v-else>
-    <Icon v-if="icon" :icon="icon" v-bind="bindAttrs" />
-  </template>
+  <div class="inline-block">
+    <template v-if="renderLocalIcon">
+      <svg aria-hidden="true" width="1em" height="1em" v-bind="bindAttrs">
+        <use :xlink:href="symbolId" fill="currentColor" />
+      </svg>
+    </template>
+    <template v-else>
+      <Icon v-if="icon" :icon="icon" v-bind="bindAttrs" />
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -32,7 +34,7 @@ const props = defineProps<Props>();
 const attrs = useAttrs();
 
 const bindAttrs = computed<{ class: string; style: string }>(() => ({
-  class: (attrs.class as string) || '',
+  class: ((attrs.class as string) || '').replace('border-1px', ''),
   style: (attrs.style as string) || ''
 }));
 
