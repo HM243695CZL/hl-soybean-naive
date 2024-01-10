@@ -16,7 +16,15 @@ declare namespace Role {
     /** 创建时间 */
     addTime: string;
   }
+
+  interface Auth {
+    /** 角色id */
+    id: number;
+    /** 权限id列表 */
+    menuIds: Array<number>;
+  }
 }
 
 export type RolePage = Role.Page;
 export type RoleItem = Role.Item;
+export type RoleAuth = Role.Auth;

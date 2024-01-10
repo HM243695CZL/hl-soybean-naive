@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosResponse, AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { REFRESH_TOKEN_CODE } from '@/config';
+import { REFRESH_TOKEN_CODE, SUCCESS_CODE } from '@/config';
 import {
   localStg,
   handleAxiosError,
@@ -38,7 +38,7 @@ export default class CustomAxiosInstance {
       codeKey: 'status',
       dataKey: 'data',
       msgKey: 'message',
-      successCode: 200
+      successCode: SUCCESS_CODE
     }
   ) {
     this.backendConfig = backendConfig;

@@ -1,16 +1,20 @@
 <script setup lang="tsx">
-import { h, reactive } from 'vue';
+import { h, onMounted, reactive, ref } from 'vue';
 import { useCrud } from '@/hooks';
 import { createRoleApi, deleteRoleApi, getRolePageApi, updateRoleApi, viewRoleApi } from '@/service/api/role';
 import CommonTop from '@/components/common/common-top.vue';
 import RoleModal from '@/views/system/component/role/roleModal.vue';
 import type { RoleItem } from '@/typings/role';
 import Pagination from '@/components/common/pagination.vue';
+import DivideAuth from '@/views/system/component/role/divideAuth.vue';
+import { getMenuListApi } from '@/service/api/menu';
 
+const divideAuthRef = ref();
 const state = reactive({
   configMap: {
     title: '角色'
-  }
+  },
+  menuList: []
 });
 const {
   modalFormRef,
@@ -29,6 +33,16 @@ const {
   pageFunc: getRolePageApi,
   deleteFunc: deleteRoleApi
 });
+const getMenuList = () => {
+  getMenuListApi().then(res => {
+    if (!res.error) {
+      state.menuList = res.data;
+    }
+  });
+};
+const clickDivideAuth = (id: number) => {
+  divideAuthRef.value.openDialog(id);
+};
 const columns = [
   {
     title: '序号',
@@ -68,7 +82,7 @@ const columns = [
         <CommonOperate
           v-slots={{
             left: () => (
-              <NButton type="info" text>
+              <NButton type="info" text onClick={() => clickDivideAuth(row.id)}>
                 授权
               </NButton>
             )
@@ -80,6 +94,9 @@ const columns = [
     }
   }
 ];
+onMounted(() => {
+  getMenuList();
+});
 </script>
 
 <template>
@@ -91,6 +108,7 @@ const columns = [
     </CommonTop>
     <n-data-table :data="dataList" :single-line="false" :columns="columns" />
     <Pagination :page-info="pageInfo" @change-page-index="changePageIndex" @change-page-size="changePageSize" />
+    <DivideAuth ref="divideAuthRef" :menu-list="state.menuList" />
     <CommonModal
       ref="modalFormRef"
       :create-func="createRoleApi"

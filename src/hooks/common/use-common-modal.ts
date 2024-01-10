@@ -72,15 +72,19 @@ export default function useCommonModal({
       if (!errors) {
         if (state.formModalRef.state.ruleForm.id) {
           updateFunc(state.formModalRef.state.ruleForm).then((res: any) => {
-            closeDialog();
-            message.success(res.originData?.message as string);
-            refreshList();
+            if (!res.error) {
+              closeDialog();
+              message.success(res.originData?.message as string);
+              refreshList();
+            }
           });
         } else {
           createFunc(state.formModalRef.state.ruleForm).then((res: any) => {
-            closeDialog();
-            message.success(res.originData?.message as string);
-            refreshList();
+            if (!res.error) {
+              closeDialog();
+              message.success(res.originData?.message as string);
+              refreshList();
+            }
           });
         }
       }

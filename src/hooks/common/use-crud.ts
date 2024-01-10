@@ -30,8 +30,10 @@ export default function useCrud({ pageFunc, deleteFunc, isMountedLoad = true }: 
       ...state.pageInfo,
       ...state.searchParams
     }).then((res: any) => {
-      state.dataList = res.data.list;
-      state.pageInfo.totalRecords = res.data.total;
+      if (!res.error) {
+        state.dataList = res.data.list;
+        state.pageInfo.totalRecords = res.data.total;
+      }
     });
   };
 
@@ -86,8 +88,10 @@ export default function useCrud({ pageFunc, deleteFunc, isMountedLoad = true }: 
       return;
     }
     deleteFunc(id).then((res: any) => {
-      message.success(res.originData?.message as string);
-      getDataList();
+      if (!res.error) {
+        message.success(res.originData?.message as string);
+        getDataList();
+      }
     });
   };
 
