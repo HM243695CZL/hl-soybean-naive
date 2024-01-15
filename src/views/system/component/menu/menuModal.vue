@@ -82,7 +82,7 @@ defineExpose({
             key-field="id"
             label-field="title"
             placeholder="请选择上级菜单"
-						@update-value="state.ruleForm.pid = $event"
+            @update-value="state.ruleForm.pid = $event"
           />
         </n-form-item>
       </n-gi>

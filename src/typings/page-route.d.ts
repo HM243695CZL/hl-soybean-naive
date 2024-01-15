@@ -33,14 +33,6 @@ declare namespace PageRoute {
    */
   type LastDegreeRouteKey = Extract<
     RouteKey,
-    | '403'
-    | '404'
-    | '500'
-    | 'constant-page'
-    | 'login'
-    | 'not-found'
-    | 'system_menu'
-    | 'system_role'
-    | 'system_user'
+    '403' | '404' | '500' | 'constant-page' | 'login' | 'not-found' | 'system_menu' | 'system_role' | 'system_user'
   >;
 }
