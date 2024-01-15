@@ -10,6 +10,7 @@ export const views: Record<
   'constant-page': () => import('./_builtin/constant-page/index.vue'),
   login: () => import('./_builtin/login/index.vue'),
   'not-found': () => import('./_builtin/not-found/index.vue'),
+  'special-effects_normal-effects': () => import('./special-effects/normal-effects/index.vue'),
   system_menu: () => import('./system/menu/index.vue'),
   system_role: () => import('./system/role/index.vue'),
   system_user: () => import('./system/user/index.vue')
