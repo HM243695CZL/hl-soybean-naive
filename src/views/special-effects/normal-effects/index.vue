@@ -23,7 +23,7 @@ const state = reactive({
   <div class="normal-effects-container">
     <div class="comp-list">
       <div v-for="item in state.specialList" :key="item.text" class="comp-item">
-        <div class="name fw700 font-size-28px">{{ item.text }}</div>
+        <div class="name fw700 font-size-28px mb2">{{ item.text }}</div>
         <div class="comp-box">
           <component :is="state.componentMap[item.compKey]" />
         </div>
