@@ -14,7 +14,7 @@
 <style scoped lang="scss">
 .box {
   position: relative;
-  z-index: 25;
+  z-index: 1;
   .icon {
     position: relative;
     color: #fff;
