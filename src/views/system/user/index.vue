@@ -89,13 +89,15 @@ const columns = [
   {
     title: '关联角色',
     key: 'roles',
-    render: row => {
-      return (row.roles || []).map((item: string) => (
-        <NTag type="success" bordered={false}>
-          {item}
-        </NTag>
-      ));
-    }
+    render: row => (
+      <NSpace>
+        {(row.roles || []).map(item => (
+          <NTag type="success" bordered={false}>
+            {item}
+          </NTag>
+        ))}
+      </NSpace>
+    )
   },
   {
     title: '添加时间',

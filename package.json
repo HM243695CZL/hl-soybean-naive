@@ -1,39 +1,8 @@
 {
-  "name": "soybean-admin",
+  "name": "hl-soybean-naive",
   "version": "0.10.4",
-  "description": "A fresh and elegant admin template, based on Vue3、Vite3、TypeScript、NaiveUI and UnoCSS. 一个基于Vue3、Vite3、TypeScript、NaiveUI and UnoCSS的清新优雅的中后台模版。",
-  "author": {
-    "name": "Soybean",
-    "email": "soybeanjs@outlook.com",
-    "url": "https://github.com/soybeanjs"
-  },
+  "description": "",
   "license": "MIT",
-  "homepage": "https://github.com/honghuangdc/soybean-admin",
-  "repository": {
-    "url": "https://github.com/honghuangdc/soybean-admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/honghuangdc/soybean-admin/issues"
-  },
-  "keywords": [
-    "Vue",
-    "Vue3",
-    "admin",
-    "admin-template",
-    "vue-admin",
-    "vue-admin-template",
-    "Vite3",
-    "Vite",
-    "vite-admin",
-    "TypeScript",
-    "TS",
-    "NaiveUI",
-    "naive-ui",
-    "naive-admin",
-    "NaiveUI-Admin",
-    "naive-ui-admin",
-    "UnoCSS"
-  ],
   "scripts": {
     "dev": "cross-env VITE_SERVICE_ENV=dev vite",
     "dev:test": "cross-env VITE_SERVICE_ENV=test vite",
