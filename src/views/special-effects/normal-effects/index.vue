@@ -2,6 +2,7 @@
 import { markRaw, reactive } from 'vue';
 import IconHoverShine from '@/views/special-effects/component/normal-effects/icon-hover-shine.vue';
 import GlassButton from '@/views/special-effects/component/normal-effects/glass-button.vue';
+import SvgTextDrawing from '@/views/special-effects/component/normal-effects/svg-text-drawing.vue';
 interface SpecialItem {
   text: string;
   compKey: string;
@@ -16,6 +17,10 @@ const state = reactive({
     {
       text: '玻璃按钮',
       compKey: markRaw(GlassButton)
+    },
+    {
+      text: 'svg文字绘制',
+      compKey: markRaw(SvgTextDrawing)
     }
   ] as Array<SpecialItem>
 });
